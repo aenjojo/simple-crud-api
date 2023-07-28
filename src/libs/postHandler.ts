@@ -5,7 +5,6 @@ const HEADERS = {
 
 export type ResultBody = {
 	id: number;
-	userId: number;
 	title: string;
 	body: string;
 }
@@ -36,13 +35,13 @@ export async function getPost(id: number) {
 	return result;
 }
 
-export async function createPost({ title, body, userId }: PostBody) {
+export async function createPost({ title, body }: PostBody) {
 	const response = await fetch(`${POSTS_URL}`, {
 		method: 'POST',
 		body: JSON.stringify({
 			title: title,
 			body: body,
-			userId: userId,
+			userId: 0,
 		}),
 		headers: HEADERS,
 	});
