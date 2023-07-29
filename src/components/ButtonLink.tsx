@@ -24,10 +24,7 @@ export function ButtonLink({ href, label, type = 'primary' }: ButtonLinkProps) {
 	return (
 		<NextLink
 			href={href}
-			className={`
-				px-4 py-2 font-medium border rounded
-				${buttonColor}
-			`}
+			className={`px-4 py-2 font-medium border rounded ${buttonColor}`}
 		>
 			{label}
 		</NextLink>
