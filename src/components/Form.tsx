@@ -1,85 +1,51 @@
-'use client';
-
-import React, { useState } from 'react';
+import React, { SetStateAction } from 'react';
 import { InputField } from './InputField';
 import { TextArea } from './TextArea';
 import { Button } from './Button';
-import { createPost, updatePost, type ResultBody } from 'src/libs/postHandler';
-import { Modal } from './Modal';
+import { type ResultBody } from 'src/libs/postHandler';
 
 type FormProps = {
-	postData?: ResultBody;
-	buttonLabel: string;
-	closeHref: string;
-	type: 'create' | 'update';
+	postData: ResultBody;
+	setPost: (value: SetStateAction<ResultBody>) => void;
+	handleSubmit(): void;
+	handleCancel(): void;
 }
 
-export function Form({ postData, closeHref, buttonLabel, type }: FormProps) {
-	const [title, setTitle] = useState(postData?.title ?? '');
-	const [content, setContent] = useState(postData?.body ?? '');
-	const [isShow, setIsShow] = useState(false);
-
-	const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setTitle(event.target.value);
-	};
-
-	const handleContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		setContent(event.target.value);
-	};
-
-	const handleSubmit = async () => {
-		let result;
-
-		switch(type) {
-			case 'create':
-				result = await createPost({
-					title: title,
-					body: content,
-				});
-				break;
-			case 'update':
-				result = await updatePost(postData!.id, {
-					title: title,
-					body: content,
-				});
-				break;
-		}
-
-		if (Boolean(result)) {
-			setIsShow(true);
-		}
-	}
-
+export function Form({ postData, setPost, handleCancel, handleSubmit }: FormProps) {
 	return (
-		<>
-			<form className='w-full flex flex-col gap-4 p-4'>
-				<InputField
-					label='Title'
-					name='title'
-					value={title}
-					onChange={handleTitleChange}
+		<form className='w-full flex flex-col gap-4 p-4'>
+			<InputField
+				label='Title'
+				name='title'
+				value={postData.title}
+				onChange={(e) => setPost({
+					...postData,
+					title: e.target.value,
+				})}
+			/>
+			<TextArea
+				label='Content'
+				name='content'
+				value={postData.body}
+				onChange={(e) => setPost({
+					...postData,
+					body: e.target.value,
+				})}
+			/>
+			<div className='flex flex-row justify-end gap-2'>
+				<Button
+					label='Cancel'
+					type='button'
+					variant='secondary'
+					onClick={handleCancel}
 				/>
-				<TextArea
-					label='Content'
-					name='content'
-					value={content}
-					onChange={handleContentChange}
+				<Button
+					label='Save'
+					type='button'
+					variant='primary'
+					onClick={handleSubmit}
 				/>
-				<div className='flex justify-end'>
-					<Button
-						label='Save'
-						type='button'
-						onClick={handleSubmit}
-					/>
-				</div>
-			</form>
-			{isShow ? (
-				<Modal
-					message='The post data is saved'
-					buttonLabel={buttonLabel}
-					closeHref={closeHref}
-				/>
-			) : false}
-		</>
+			</div>
+		</form>
 	);
 }
