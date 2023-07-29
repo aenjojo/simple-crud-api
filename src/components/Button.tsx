@@ -3,10 +3,12 @@ import React from 'react';
 type ButtonProps = {
 	label: string;
 	variant?: 'primary' | 'secondary' | 'danger';
+	mode?: 'button' | 'link';
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export function Button({ label, variant, ...props }: ButtonProps) {
+export function Button({ label, variant, mode, ...props }: ButtonProps) {
 	let buttonColor = '';
+	let buttonStyle = '';
 	
 	switch(variant) {
 		case 'primary':
@@ -18,11 +20,24 @@ export function Button({ label, variant, ...props }: ButtonProps) {
 		case 'danger':
 			buttonColor = 'bg-transparent border-transparent text-red-600 hover:bg-red-200';
 			break;
+		default:
+			buttonColor = '';
+			break;
+	}
+
+	switch(mode) {
+		case 'link':
+			buttonStyle = 'text-blue-600 hover:underline decoration-2';
+			break;
+		case 'button':
+		default:
+			buttonStyle = 'px-4 py-2 font-medium border rounded';
+			break;
 	}
 
 	return (
 		<button
-			className={`px-4 py-2 font-medium border rounded ${buttonColor}`}
+			className={`${buttonStyle} ${buttonColor}`}
 			{...props}
 		>
 			{label}
