@@ -1,12 +1,12 @@
-import { Link } from './Link';
+import { Button } from './Button';
 
 type CardProps = {
 	title: string;
 	content: string;
-	postId: number;
+	setPost(): void;
 };
 
-export function Card({ title, content, postId }: CardProps) {
+export function Card({ title, content, setPost }: CardProps) {
 	return (
 		<div className={`
 			w-full md:w-80 lg:w-96 p-4 rounded-lg flex flex-col gap-2
@@ -19,9 +19,10 @@ export function Card({ title, content, postId }: CardProps) {
 				<p className='line-clamp-3'>
 					{content}
 				</p>
-				<Link
-					href={`/post/${postId}`}
+				<Button
 					label='Read more'
+					mode='link'
+					onClick={setPost}
 				/>
 			</div>
 		</div>
