@@ -1,6 +1,6 @@
 {
   "name": "simple-crud-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A simple CRUD with API integration",
   "author": "@aenjojo",
   "private": true,
