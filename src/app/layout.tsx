@@ -19,7 +19,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 						</h1>
 						<ButtonLink
 							label='New post'
-							href='/new-post'
+							href='/post/new'
 						/>
 					</div>
 				</header>
